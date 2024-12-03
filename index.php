@@ -53,10 +53,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<nav class="cl-effect-13" id="cl-effect-13">
 						<ul class="nav navbar-nav">
 							<li class="active"><a href="index.php">Home</a></li>
-							<li><a href="about.php">About</a></li>
+							<li><a href="blog.php">Blog</a></li><li><a href="about.php">About</a></li>
 							
-							<li><a href="blog.php">Blog</a></li>
+						
 							<li><a href="contact.php">Contact</a></li>
+							<li><a href="admin/login.php">Sign In | Up</a></li>
 						</ul>
 						
 					</nav>
@@ -110,33 +111,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		</div>
 	</div>
 <!-- //banner -->
-
-<!-- content -->
-<div class="process all_pad agileits">
-	
-	<?php
-				if (isset($_GET["subscribed"])) {
-					echo 
-					'<div class="alert alert-success" >
-                          <a href="#" class="close" data-dismiss="alert" aria-label="close"></a>
-                         <strong>SUBSCRIBED!! </strong><p> Thank you for subscribing with us. We will keep you informed on what is happening with Company.</p>
-                    </div>'
-					;
-				}
-				elseif (isset($_GET["fail"])) {
-					echo 
-					'<div class="alert alert-danger" >
-                          <a href="#" class="close" data-dismiss="alert" aria-label="close"></a>
-                         <strong>Ooops!! </strong><p> Looks like you are already subscribed to our mailing list :) </p>
-                    </div>'
-					;
-				}
-			?>	
-
-</div>	
-<!-- //process -->
-
-
 
 <!-- footer -->
 	

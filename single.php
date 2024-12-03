@@ -9,10 +9,12 @@
         $postid = $_GET['id'];
 
         $sql = "SELECT * FROM posts WHERE id='$postid'";
-        $query = mysqli_query($connection, $sql);
+		$query = $pdo->query($sql);
+		$query = $query->fetchall(PDO::FETCH_ASSOC);
 
         $sql2 = "SELECT * FROM comments WHERE post_id=$postid";
-        $query2 = mysqli_query($connection, $sql2);
+		$query2 = $pdo->query($sql2);
+		$query2 = $query2->fetchall(PDO::FETCH_ASSOC);
         
       }
 
@@ -26,7 +28,7 @@
 <html lang="en">
 <head>
 <link rel="icon" href="images/icon.png">
-<title>Company</title>
+<title>LifeLoop</title>
 <!-- custom-theme -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -97,16 +99,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<div class="row">
 
 					<?php 
-
-                          while ($row = mysqli_fetch_assoc($query)) {
-                          	
+						foreach($query as $row) {	
 					echo
 					'<div class="col-md-12">
 						<a href="blog.php"><i class="fa fa-arrow-left"> Back</i></a>
 						<br>
 						<h4>'.$row["title"].'</h4>
 						<br>
-						<h6 style="color: orange;">'.$row["author"].' <b style="color: #000;">|</b> ('.mysqli_num_rows($query2).') Comments <b style="color: #000;">|</b> '.$row["date"].'</h6>
+						<h6 style="color: orange;">'.$row["author"].' <b style="color: #000;">|</b> ('.count($query2).') Comments <b style="color: #000;">|</b> '.$row["date"].'</h6>
 						<br>
 
 						<p>
@@ -118,13 +118,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					?>
 						<hr>
 
-						<h4>Comments (<?php echo mysqli_num_rows($query2); ?>)</h4>
+						<h4>Comments (<?php echo count($query2); ?>)</h4>
 						<br/>
 						<div style="border-style: double; border-color: #000;">
 							<div style="padding: 10px;">
 
 						<?php 
-						while ($row2 = mysqli_fetch_assoc($query2)) {
+						foreach($query2 as $row2) {	
 						echo
 						'
 							 

@@ -1,6 +1,11 @@
 <?php
 require_once "admin/functions/db.php";
 
+// Check if $pdo is a valid PDO instance
+if (!$pdo instanceof PDO) {
+    die("Database connection is not a valid PDO object.");
+}
+
 // Default pagination variables
 $limit = 10; // Number of posts per page
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
@@ -9,10 +14,9 @@ $start = ($page > 1) ? ($page * $limit) - $limit : 0;
 // Search query
 $search = isset($_GET['search']) ? trim($_GET['search']) : "";
 
-// SQL query using PDO
 try {
     $sql = "SELECT * FROM posts WHERE title LIKE :search OR content LIKE :search LIMIT :start, :limit";
-    $stmt = $db->prepare($sql);
+    $stmt = $pdo->prepare($sql);
 
     // Bind parameters
     $stmt->bindValue(':search', "%$search%", PDO::PARAM_STR);
@@ -24,7 +28,7 @@ try {
 
     // Total count for pagination
     $countSql = "SELECT COUNT(*) as total FROM posts WHERE title LIKE :search OR content LIKE :search";
-    $countStmt = $db->prepare($countSql);
+    $countStmt = $pdo->prepare($countSql);
     $countStmt->bindValue(':search', "%$search%", PDO::PARAM_STR);
     $countStmt->execute();
     $totalCount = $countStmt->fetch(PDO::FETCH_ASSOC)['total'];
@@ -35,11 +39,12 @@ try {
 }
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <link rel="icon" href="images/icon.png">
-    <title>Company Blog</title>
+    <title>Life Loop</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="keywords" content="Blog, Pagination, Search" />
@@ -169,10 +174,10 @@ try {
 						<nav class="cl-effect-13" id="cl-effect-13">
 						<ul class="nav navbar-nav">
 							<li><a href="index.php">Home</a></li>
-							<li class="active"><a href="about.php">About</a></li>
-							
-							<li><a href="blog.php">Blog</a></li>
+							<li class="active"><a href="blog.php">Blog</a></li>
+							<li><a href="about.php">About</a></li>
 							<li><a href="contact.php">Contact</a></li>
+							<li><a href="admin/login.php">Sign In | Up</a></li>
 						</ul>
 						
 					</nav>

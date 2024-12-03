@@ -33,6 +33,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<ul>
 						<li><i class="fa fa-phone" aria-hidden="true"></i>+(254) 002 100 500</li>
 						<li><i class="fa fa-envelope" aria-hidden="true"></i><a href="mailto:info@Companyonline.net">info@example.com</a></li>
+
 					</ul>
 				</div>
 			</div>
@@ -52,10 +53,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<nav class="cl-effect-13" id="cl-effect-13">
 						<ul class="nav navbar-nav">
 							<li><a href="index.php">Home</a></li>
-							<li class="active"><a href="about.php">About</a></li>
-							
 							<li><a href="blog.php">Blog</a></li>
+							<li class="active"><a href="about.php">About</a></li>
 							<li><a href="contact.php">Contact</a></li>
+							<li><a href="admin/login.php">Sign In | Up</a></li>
 						</ul>
 						
 					</nav>

@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
 <link rel="icon" href="images/icon.png">
-<title>Company</title>
+<title>LifeLoop</title>
 <!-- custom-theme -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -52,10 +52,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<nav class="cl-effect-13" id="cl-effect-13">
 						<ul class="nav navbar-nav">
 							<li><a href="index.php">Home</a></li>
-							<li><a href="about.php">About</a></li>
-							
 							<li><a href="blog.php">Blog</a></li>
+							<li><a href="about.php">About</a></li>
 							<li class="active"><a href="contact.php">Contact</a></li>
+							<li><a href="admin/login.php">Sign In | Up</a></li>
 						</ul>
 						
 					</nav>
@@ -99,7 +99,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!-- //mail -->
 <!-- map -->
 	<div class="w3l-map">
-		<iframe width="100%" height="300" src="https://maps.google.com/maps?width=100%&amp;height=300&amp;hl=en&amp;q=Relaince%20center%20%2C%20Woodvale%20Grove%2C%20Westlands%20-%20Nairobi%2C%20Kenya+(Company%20Offices)&amp;ie=UTF8&amp;t=&amp;z=15&amp;iwloc=B&amp;output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+		<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2569.9254122544357!2d-97.14398022455238!3d49.90020362683141!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x52ea715dbbfef9f7%3A0xa264c0c30d60f12c!2s160%20Princess%20St%2C%20Winnipeg%2C%20MB%20R3B%201K9!5e0!3m2!1sen!2sca!4v1732640484228!5m2!1sen!2sca" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
 	</div>
 <!-- map -->
 

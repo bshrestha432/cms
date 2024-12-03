@@ -1,78 +1,76 @@
-
-
 <?php
 
 require_once "../admin/functions/db.php";
 
-// print_r($_SESSION);
-// Form processing
-// if (isset($_POST['submit'])) {
+// Start the session at the top of your script
+session_start();
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = htmlspecialchars(trim($_POST['name']));
     $email = htmlspecialchars(trim($_POST['email']));
     $password = trim($_POST['password']);
     $confirm_password = trim($_POST['confirm_password']);
     $captcha = trim($_POST['captcha']);
+    echo $captcha;
 
-    if (empty($name) || empty($email) || empty($password) || empty($confirm_password) || empty($captcha)) {
-        $error = "All fields are required.";
-    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $error = "Invalid email format.";
-    } elseif ($password !== $confirm_password) {
-        $error = "Passwords do not match.";
-    // } elseif ($captcha !== $_SESSION['captcha']) {
-    //     $error = "Invalid CAPTCHA.";
-    } else {
-        // Hash the password
-        $hashed_password = password_hash($password, PASSWORD_BCRYPT);
-        $token = bin2hex(random_bytes(16));
+    $errors = [];
 
-        // Insert into database using PDO
-        try {
-            $stmt = $pdo->prepare("INSERT INTO users (name, email, password, token) VALUES (:name, :email, :password, :token)");
-            $stmt->execute([
-                ':name' => $name,
-                ':email' => $email,
-                ':password' => $hashed_password,
-                ':token'    =>$token,
-            ]);
-            header('Location:../register.php?sent');
-            $success = "User registered successfully!";
-        } catch (PDOException $e) {
-            if ($e->getCode() == 23000) { // Duplicate email error code
-                $error = "Email is already registered.";
-            } else {
-                $error = "Registration failed: " . $e->getMessage();
-            }
-        }
+    // Validation checks
+    if (empty($name)) {
+        $errors[] = "Name is required.";
     }
-// }
+    if (empty($email)) {
+        $errors[] = "Email is required.";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $errors[] = "Invalid email format.";
+    }
+    if (empty($password)) {
+        $errors[] = "Password is required.";
+    }
+    if (empty($confirm_password)) {
+        $errors[] = "Confirm password is required.";
+    } elseif ($password !== $confirm_password) {
+        $errors[] = "Passwords do not match.";
+    }
+    if (empty($captcha)) {
+        $errors[] = "CAPTCHA is required.";
+    } elseif (!isset($_SESSION['captcha']) || $captcha != $_SESSION['captcha']) {
+        $errors[] = "Invalid CAPTCHA.";
+    }
 
-// if (isset($_POST['submit'])) {
-	
-// 	$sql = "INSERT INTO comments(name, comment, post_id)
-//     VALUES (?,?,?)";
+    if (!empty($errors)) {
+        // Return errors in JSON format
+        header('Location: ../register.php?error=' . urlencode(json_encode(["status" => "error", "errors" => $errors])));
+        exit;
+    }
 
-//     $stmt = $db->prepare($sql);
+    // Hash the password
+    $hashed_password = password_hash($password, PASSWORD_BCRYPT);
+    $token = bin2hex(random_bytes(16));
 
+    // Insert into the database
+    try {
+        $stmt = $pdo->prepare("INSERT INTO users (name, email, password, token) VALUES (:name, :email, :password, :token)");
+        $stmt->execute([
+            ':name' => $name,
+            ':email' => $email,
+            ':password' => $hashed_password,
+            ':token' => $token,
+        ]);
+        header('Location: ../register.php?sent');
+        exit;
+    } catch (PDOException $e) {
+        if ($e->getCode() == 23000) { // Duplicate email error code
+            $error = "Email is already registered.";
+        } else {
+            $error = "Registration failed: " . $e->getMessage();
+        }
+        header('Location: ../register.php?error=' . urlencode(json_encode(["status" => "error", "errors" => $errors])));
+  exit;
+    }
+}
 
-//     try {
-//       $stmt->execute([$name, $comment, $post_id]);
-//       header('Location:../blog.php');
-//       // echo "DONE!!";
-
-//       }
-
-//      catch (Exception $e) {
-//         $e->getMessage();
-//         echo "Error";
-//     }	
-
-// }
-
-
-
-
-
-
-
-?>
+// If the request method is not POST, return an error
+http_response_code(405);
+header('Location: ../register.php?error=' . urlencode(json_encode(["status" => "error", "errors" => $errors])));
+exit;

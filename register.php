@@ -1,6 +1,9 @@
 <?php
 session_start();
 
+$captcha_code = rand(1000, 9999);
+$_SESSION['captcha'] = $captcha_code;
+
 $path = '/admin/functions/db.php';
 $data = require_once __DIR__ .$path;
 $error = $success = '';
@@ -46,15 +49,9 @@ if (isset($_POST['submit'])) {
     }
 }
 
-// Generate a new CAPTCHA
-// $captcha_code = rand(1000, 9999);
-// $_SESSION['captcha'] = $captcha_code;
-
 // Generate a new CAPTCHA image
-function generateCaptchaImage()
+function generateCaptchaImage($captcha_code)
 {
-    $captcha_code = rand(1000, 9999);
-    $_SESSION['captcha'] = $captcha_code;
 // print_r($_SESSION);
     // Create an image
     $image = imagecreatetruecolor(120, 40);
@@ -85,7 +82,7 @@ function generateCaptchaImage()
     return 'data:image/png;base64,' . base64_encode($data);
 }
 
-$captcha_image = generateCaptchaImage();
+$captcha_image = generateCaptchaImage($captcha_code);
 ?>
 
 <!DOCTYPE html>
@@ -140,11 +137,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<nav class="cl-effect-13" id="cl-effect-13">
 						<ul class="nav navbar-nav">
 							<li><a href="index.php">Home</a></li>
-							<li><a href="blog.php">Blog</a></li><li><a href="about.php">About</a></li>
-							
-						
+							<li><a href="blog.php">Blog</a></li>
+							<li><a href="about.php">About</a></li>
 							<li><a href="contact.php">Contact</a></li>
-							<li class="active"><a href="register.php">SignUp</a></li>
+							<li  class="active"><a href="admin/login.php">Sign In | Up</a></li>
 						</ul>
 						
 					</nav>
@@ -164,10 +160,26 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					echo 
 					'<div class="alert alert-success" >
                           <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                         <strong>SENT!! </strong><p> Thank you for your message. We will get back to you as soon as possible.</p>
+                         <strong>SENT!! </strong><p> Thank you for registering.</p>
                     </div>'
 					;
 				}
+
+                // Add a container to show errors
+                if (isset($_GET["error"])) {
+                    $errorMessages = json_decode($_GET["error"], true);
+                    if ($errorMessages && is_array($errorMessages['errors'])) {
+                        echo '<div class="alert alert-danger">';
+                        echo '<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>';
+                        echo '<strong>Error!</strong>';
+                        echo '<ul>';
+                        foreach ($errorMessages['errors'] as $error) {
+                            echo '<li>' . htmlspecialchars($error) . '</li>';
+                        }
+                        echo '</ul>';
+                        echo '</div>';
+                    }
+                }
 			?>
 				<div class="agileits_mail_grids">
 				<div class="agileits_mail_grid_left">
